@@ -1,0 +1,25 @@
+---
+import ContentLayout from "astro-theme-university/layouts/ContentLayout.astro";
+import CourseCalendar from "../../components/CourseCalendar.astro";
+import { courseMeta } from "../../course-config";
+import { formatCourseDate } from "../../lib/dates";
+import { siteConfig } from "../../site-config";
+---
+
+<ContentLayout
+  title="Calendar"
+  description={`The whole of ${courseMeta.session}, ${courseMeta.year} on one page: ${formatCourseDate(courseMeta.startDate)} to ${formatCourseDate(courseMeta.endDate)}.`}
+  {...siteConfig}
+>
+  <CourseCalendar />
+
+  <p>
+    The three lists this page gathers &mdash; lectures, seminars, assessment
+    &mdash; each read as though the course ran at a steady rate. Side by side
+    they don't. The seminar column is empty more often than it is full, and the
+    weeks it skips are the ones the syllabus wanted you spending on the work
+    rather than on the argument about the work. Read the gaps as content: a
+    week with nothing scheduled in it is the only way a course about
+    subtraction can practise what it teaches on its own timetable.
+  </p>
+</ContentLayout>

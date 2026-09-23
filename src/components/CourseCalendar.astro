@@ -1,0 +1,187 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+import { formatCourseDate } from "../lib/dates";
+import { sessionLabels } from "../site-config";
+
+// One row per teaching week, so the semester reads as a shape rather than as
+// three separate lists. The seminar column is deliberately sparse: half the
+// weeks have no seminar at all, and a calendar that quietly closed that gap
+// would be hiding the course's own argument in its timetable.
+
+interface CalendarItem {
+  title: string;
+  href: string;
+  date: Date;
+  note?: string;
+}
+
+interface CalendarWeek {
+  week: number;
+  lectures: CalendarItem[];
+  seminars: CalendarItem[];
+  due: CalendarItem[];
+}
+
+const byDate = (a: CalendarItem, b: CalendarItem) => a.date.getTime() - b.date.getTime();
+
+const [lectures, sessions, assessments] = await Promise.all([
+  getPublishedCollection("lectures"),
+  getPublishedCollection("sessions"),
+  getPublishedCollection("assessments"),
+]);
+
+const weeks: CalendarWeek[] = [];
+const weekRow = (week: number): CalendarWeek => {
+  let row = weeks.find((candidate) => candidate.week === week);
+  if (!row) {
+    row = { week, lectures: [], seminars: [], due: [] };
+    weeks.push(row);
+  }
+  return row;
+};
+
+// Weeks come from the content, not a hardcoded twelve: drop a week and the
+// calendar loses a row instead of rendering an empty one.
+for (const lecture of lectures) {
+  weekRow(lecture.data.week).lectures.push({
+    title: lecture.data.title,
+    href: withBase(`/lectures/${lecture.id}/`),
+    date: lecture.data.date,
+  });
+}
+for (const session of sessions) {
+  weekRow(session.data.week).seminars.push({
+    title: session.data.title,
+    href: withBase(`/sessions/${session.id}/`),
+    date: session.data.date,
+  });
+}
+for (const assessment of assessments) {
+  weekRow(assessment.data.week).due.push({
+    title: assessment.data.title,
+    href: withBase(`/assessments/${assessment.id}/`),
+    date: assessment.data.due,
+    note: `${assessment.data.weight}%`,
+  });
+}
+
+weeks.sort((a, b) => a.week - b.week);
+for (const row of weeks) {
+  row.lectures.sort(byDate);
+  row.seminars.sort(byDate);
+  row.due.sort(byDate);
+}
+
+const seminarFreeWeeks = weeks.filter((row) => row.seminars.length === 0).length;
+const seminar = sessionLabels.singular.toLowerCase();
+const caption =
+  `Every lecture, ${seminar} and due date in the order they arrive. ` +
+  `${seminarFreeWeeks} of the ${weeks.length} weeks hold no ${seminar}: ` +
+  `that space is the syllabus making its own case.`;
+---
+
+<div class="at-table-wrap">
+  <table class="course-calendar">
+    <caption>{caption}</caption>
+    <thead>
+      <tr>
+        <th scope="col">Week</th>
+        <th scope="col">Lecture</th>
+        <th scope="col">{sessionLabels.singular}</th>
+        <th scope="col">Due</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        weeks.map((row) => (
+          <tr>
+            <th scope="row" class="calendar-week">{row.week}</th>
+            <td>
+              {row.lectures.map((item) => (
+                <p class="calendar-item">
+                  <a href={item.href}>{item.title}</a>
+                  <small>{formatCourseDate(item.date)}</small>
+                </p>
+              ))}
+            </td>
+            <td class={row.seminars.length === 0 ? "calendar-blank" : undefined}>
+              {row.seminars.map((item) => (
+                <p class="calendar-item">
+                  <a href={item.href}>{item.title}</a>
+                  <small>{formatCourseDate(item.date)}</small>
+                </p>
+              ))}
+              {row.seminars.length === 0 && (
+                <Fragment>
+                  <span aria-hidden="true">&mdash;</span>
+                  <span class="visually-hidden">
+                    No {sessionLabels.singular.toLowerCase()} this week
+                  </span>
+                </Fragment>
+              )}
+            </td>
+            <td class={row.due.length === 0 ? "calendar-blank" : undefined}>
+              {row.due.map((item) => (
+                <p class="calendar-item">
+                  <a href={item.href}>{item.title}</a>
+                  <small>{formatCourseDate(item.date)} &middot; {item.note}</small>
+                </p>
+              ))}
+              {row.due.length === 0 && (
+                <Fragment>
+                  <span aria-hidden="true">&mdash;</span>
+                  <span class="visually-hidden">Nothing due this week</span>
+                </Fragment>
+              )}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .course-calendar caption {
+    caption-side: top;
+    text-align: start;
+    color: var(--at-text-secondary);
+    font-size: var(--at-font-size-sm);
+    padding-block-end: var(--at-spacing-sm);
+  }
+
+  .course-calendar th[scope="col"] {
+    white-space: nowrap;
+  }
+
+  .calendar-week {
+    font-variant-numeric: tabular-nums;
+    width: 1%;
+    white-space: nowrap;
+    vertical-align: baseline;
+  }
+
+  .course-calendar td {
+    vertical-align: baseline;
+    min-width: 12rem;
+  }
+
+  .calendar-item {
+    margin-block: 0;
+  }
+
+  .calendar-item + .calendar-item {
+    margin-block-start: var(--at-spacing-sm);
+  }
+
+  .calendar-item small {
+    display: block;
+    color: var(--at-text-muted);
+  }
+
+  /* A week with nothing in it still has to look chosen rather than missing. */
+  .calendar-blank {
+    color: var(--at-text-muted);
+  }
+</style>
