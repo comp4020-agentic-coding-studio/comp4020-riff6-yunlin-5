@@ -30,6 +30,24 @@ every cut earns its keep, and this course has been better at showing you
 successful cuts than at teaching you to tell the difference in advance.
 That second clause is the final assessment's real subject.
 
+## Example
+
+Chesterton's fence, from *The Thing* (1929): a reformer finds a fence
+across a road and proposes clearing it away; the reply is that he may
+not remove it until he can say why it was put there. The principle is a
+direct constraint on everything this course has taught.
+
+What the rule costs is speed, and sometimes more --- it protects fences
+that genuinely should come down, and "nobody knows why it's there" has
+defended plenty of indefensible arrangements. What it buys is the second
+clause this semester has been assuming without stating: a cut is only
+defensible by someone who understood what they were cutting. Every
+omission that worked in the previous eleven weeks was made by somebody
+who knew the material well enough to know what they were removing. That,
+and not restraint, is the difference between Ni Zan's empty silk and an
+unfinished painting --- and eleven weeks of showing you the first is not
+the same as teaching you to spot the second.
+
 ## Outline
 
 - maximalism as the semester's most direct counter-example
