@@ -23,6 +23,22 @@ shape of a wound; a design that simply never had the feature was never
 making an argument at all. Most bad "minimalist" design is the second
 kind wearing the first kind's reputation.
 
+## Example
+
+Harry Beck's 1933 diagram of the London Underground removed the thing
+every previous map had been built on: geography. True distances go,
+the Thames becomes a stylised band, stations space themselves evenly
+however many miles apart they are, and every line runs at nought,
+forty-five or ninety degrees.
+
+The cost is documented and still being paid --- passengers ride between
+Covent Garden and Leicester Square, a few hundred metres apart, because
+the diagram gives them no way to judge it. What it buys is that the
+network's topology, which is the only thing a passenger underground
+actually needs, becomes readable at a glance. Beck's map is this week's
+distinction in one object: you can see the shape of what was taken out,
+which is why it reads as a diagram and not as a bad map.
+
 ## Outline
 
 - Rams's tenth principle, and the two ways to misread it
