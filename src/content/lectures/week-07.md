@@ -26,6 +26,23 @@ emptiness is the point, meant to be dwelt in; the FedEx gap is a trick,
 meant to work without being noticed at all. Confusing those two is where
 student negative-space projects usually go wrong.
 
+## Example
+
+A typeface is as much its counters --- the enclosed white inside an "o",
+the eye of an "e", the bowl of a "b" --- as its strokes. Type designers
+draw them directly rather than letting them fall out of the black, and a
+text face usually fails because its counters closed, not because its
+strokes were wrong: set a heavy grotesque small enough and the "e" fills
+in and becomes an "o".
+
+What protecting that white costs is weight and width. There is a hard
+ceiling on how bold or how condensed a face can go before the counters
+give out, which is why display and text cuts of the same family are
+drawn differently rather than scaled. What it buys is that legibility
+lives in the space rather than the mark --- a reader is recognising
+shapes of white, at speeds that make it obvious they were never reading
+the ink.
+
 ## Outline
 
 - Pawson's monastery: emptiness as a building material, not an absence of
