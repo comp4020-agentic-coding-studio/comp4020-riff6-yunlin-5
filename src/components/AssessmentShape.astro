@@ -1,0 +1,266 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+import { formatCourseDate } from "../lib/dates";
+
+// Two figures the three cards below can't draw: how the hundred marks divide,
+// and how much of the semester each assessment is actually running for. Both
+// read the same three assessments in the same chronological order, so one
+// ordinal ramp carries identity across both --- the colour is the order, not
+// the size. (A ramp keyed to weight would double-encode what the bar length
+// already says; see the ordering below, which is by date.)
+
+const ordinalStep = (index: number, total: number) => {
+  const t = total > 1 ? index / (total - 1) : 0;
+  const mix = (from: number, to: number) => from + (to - from) * t;
+  // Endpoints validated as an ordinal ramp against both theme surfaces:
+  // one hue (the brand gold), monotone lightness, adjacent dL >= 0.06, and
+  // the step nearest each surface still clears it. Derived from --at-primary
+  // via relative colour so the house palette stays the only palette.
+  const light = `oklch(from var(--at-primary) ${(mix(0.72, 0.44) * 100).toFixed(1)}% ${mix(0.112, 0.092).toFixed(3)} h)`;
+  const dark = `oklch(from var(--at-primary) ${(mix(0.55, 0.85) * 100).toFixed(1)}% ${mix(0.115, 0.1).toFixed(3)} h)`;
+  return `light-dark(${light}, ${dark})`;
+};
+
+const [assessments, lectures] = await Promise.all([
+  getPublishedCollection("assessments"),
+  getPublishedCollection("lectures"),
+]);
+
+const ordered = [...assessments].sort((a, b) => a.data.due.getTime() - b.data.due.getTime());
+const totalWeeks = Math.max(...lectures.map((lecture) => lecture.data.week), ...ordered.map((a) => a.data.week));
+const totalWeight = ordered.reduce((sum, a) => sum + a.data.weight, 0);
+
+// Each assessment runs from the day after the previous one was handed in, so
+// the spans are read off the due dates rather than restated in a tag that
+// could drift out of step with them.
+let previousWeek = 0;
+const rows = ordered.map((assessment, index) => {
+  const from = previousWeek + 1;
+  const to = assessment.data.week;
+  previousWeek = to;
+  return {
+    id: assessment.id,
+    title: assessment.data.title,
+    href: withBase(`/assessments/${assessment.id}/`),
+    weight: assessment.data.weight,
+    due: assessment.data.due,
+    from,
+    to,
+    mark: ordinalStep(index, ordered.length),
+    share: (assessment.data.weight / totalWeight) * 100,
+    offset: ((from - 1) / totalWeeks) * 100,
+    width: ((to - from + 1) / totalWeeks) * 100,
+  };
+});
+
+const weeks = Array.from({ length: totalWeeks }, (_, i) => i + 1);
+const spanCaption =
+  `Measured from the day after the previous piece was handed in to its own due ` +
+  `date, the three tile the ${totalWeeks} weeks end to end — nothing overlaps, ` +
+  `and nothing is left uncovered.`;
+---
+
+<figure class="assessment-figure">
+  <figcaption>
+    <strong>Where the marks are.</strong> The three pieces divide {totalWeight} marks
+    between them; the shading runs in the order they fall due.
+  </figcaption>
+
+  <div class="weight-bar">
+    {
+      rows.map((row) => (
+        <div class="weight-segment" style={`--mark: ${row.mark}; --share: ${row.share}`}>
+          <span class="weight-value" aria-hidden="true">{row.weight}%</span>
+          <span class="visually-hidden">{row.title}: {row.weight}% of the course mark</span>
+        </div>
+      ))
+    }
+  </div>
+
+  <ul class="figure-key">
+    {
+      rows.map((row) => (
+        <li>
+          <span class="key-swatch" style={`--mark: ${row.mark}`} aria-hidden="true" />
+          <a href={row.href}>{row.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</figure>
+
+<figure class="assessment-figure">
+  <figcaption>
+    <strong>How long each one runs.</strong> {spanCaption}
+  </figcaption>
+
+  <ol class="span-rows">
+    {
+      rows.map((row) => (
+        <li class="span-row">
+          <a class="span-label" href={row.href}>{row.title}</a>
+          <div class="span-track">
+            <div class="span-bar" style={`--mark: ${row.mark}; --offset: ${row.offset}; --width: ${row.width}`} />
+          </div>
+          <span class="visually-hidden">
+            Runs week {row.from} to week {row.to}, due {formatCourseDate(row.due)}
+          </span>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="span-axis" aria-hidden="true">
+    <span class="span-axis-gutter">Teaching week</span>
+    <div class="span-ticks" style={`--weeks: ${totalWeeks}`}>
+      {weeks.map((week) => <span class="span-tick">{week}</span>)}
+    </div>
+  </div>
+</figure>
+
+<style>
+  .assessment-figure {
+    margin: 0 0 var(--at-spacing-xl);
+  }
+
+  .assessment-figure figcaption {
+    color: var(--at-text-secondary);
+    font-size: var(--at-font-size-sm);
+    margin-block-end: var(--at-spacing-md);
+  }
+
+  .assessment-figure figcaption strong {
+    color: var(--at-text);
+  }
+
+  /* Part-to-whole: one bar, segments separated by a 2px gap in the surface
+     colour rather than by a stroke, and rounded only at the two outer ends. */
+  .weight-bar {
+    display: flex;
+    gap: 2px;
+    height: 22px;
+  }
+
+  .weight-segment {
+    flex: 0 0 calc(var(--share) * 1% - 2px);
+    background: var(--mark);
+    display: grid;
+    place-items: center;
+  }
+
+  .weight-bar > .weight-segment:first-child {
+    border-start-start-radius: 4px;
+    border-end-start-radius: 4px;
+  }
+
+  .weight-bar > .weight-segment:last-child {
+    border-start-end-radius: 4px;
+    border-end-end-radius: 4px;
+  }
+
+  /* The one place text may sit on a data colour: picked against the fill's own
+     luminance so it clears contrast at either end of the ramp. */
+  .weight-value {
+    font-size: var(--at-font-size-xs);
+    font-variant-numeric: tabular-nums;
+    color: oklch(from var(--mark) clamp(0, (0.62 - l) * 1000, 1) 0 h);
+  }
+
+  .figure-key {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--at-spacing-xs) var(--at-spacing-lg);
+    margin: var(--at-spacing-sm) 0 0;
+    padding: 0;
+    font-size: var(--at-font-size-sm);
+  }
+
+  .figure-key li {
+    display: flex;
+    align-items: center;
+    gap: var(--at-spacing-xs);
+  }
+
+  .key-swatch {
+    inline-size: 0.75rem;
+    block-size: 0.75rem;
+    border-radius: 2px;
+    background: var(--mark);
+    flex: none;
+  }
+
+  .span-rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--at-spacing-sm);
+  }
+
+  .span-row {
+    display: grid;
+    grid-template-columns: minmax(6rem, 12rem) 1fr;
+    align-items: center;
+    gap: var(--at-spacing-md);
+  }
+
+  .span-label {
+    font-size: var(--at-font-size-sm);
+  }
+
+  .span-track {
+    position: relative;
+    block-size: 14px;
+    /* Hairline, solid, one step off the surface: present enough to read the
+       span against, quiet enough to stay out of the way. */
+    border-inline-start: 1px solid var(--at-divider);
+    border-inline-end: 1px solid var(--at-divider);
+  }
+
+  .span-bar {
+    position: absolute;
+    inset-block: 0;
+    inset-inline-start: calc(var(--offset) * 1%);
+    inline-size: calc(var(--width) * 1% - 2px);
+    background: var(--mark);
+    border-radius: 4px;
+  }
+
+  /* The axis repeats the row grid so its ticks line up with the tracks above. */
+  .span-axis {
+    display: grid;
+    grid-template-columns: minmax(6rem, 12rem) 1fr;
+    gap: var(--at-spacing-md);
+    margin-block-start: var(--at-spacing-xs);
+    font-size: var(--at-font-size-xs);
+    color: var(--at-text-muted);
+  }
+
+  .span-axis-gutter {
+    text-align: end;
+  }
+
+  .span-ticks {
+    display: grid;
+    grid-template-columns: repeat(var(--weeks), 1fr);
+  }
+
+  .span-tick {
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+
+  @media (max-width: 34rem) {
+    .span-row,
+    .span-axis {
+      grid-template-columns: 1fr;
+      gap: var(--at-spacing-xs);
+    }
+
+    .span-axis-gutter {
+      text-align: start;
+    }
+  }
+</style>
