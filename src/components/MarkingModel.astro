@@ -14,6 +14,20 @@ interface Props {
 }
 
 const { marking } = Astro.props;
+
+// The criteria are nominal --- swapping Craft and Self-critique changes
+// nothing --- so every meter takes the same hue and the row label carries
+// identity. Shading them by size would re-encode what the bar length
+// already says and spend the one channel that isn't doing any work yet.
+const total =
+  marking.mode === "weighted"
+    ? marking.criteria.reduce((sum, criterion) => sum + criterion.weight, 0)
+    : 0;
+
+// The site spells small numbers in prose; the meters and the weight column
+// are where the numerals belong.
+const words = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+const spell = (n: number) => words[n] ?? String(n);
 ---
 
 <section aria-labelledby="how-marked">
@@ -21,13 +35,92 @@ const { marking } = Astro.props;
   {marking.mode === "holistic" ? (
     <p>{marking.description}</p>
   ) : (
-    <table>
-      <thead><tr><th scope="col">Criterion</th><th scope="col">Weight</th></tr></thead>
+    <table class="marking-table">
+      <caption>
+        {`The ${spell(marking.criteria.length)} criteria divide this assessment's ${total} marks between them.`}
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">Criterion</th>
+          <th scope="col">Weight</th>
+        </tr>
+      </thead>
       <tbody>
         {marking.criteria.map((criterion) => (
-          <tr><td>{criterion.name}</td><td>{criterion.weight}%</td></tr>
+          <tr>
+            <th scope="row" class="marking-criterion">{criterion.name}</th>
+            <td>
+              <div class="marking-weight">
+                {/* The number beside it is the accessible value; the meter is
+                    the same fact drawn, so it stays out of the reading order. */}
+                <div class="marking-meter" aria-hidden="true">
+                  <div class="marking-fill" style={`--share: ${criterion.weight}`} />
+                </div>
+                <span class="marking-value">{criterion.weight}%</span>
+              </div>
+            </td>
+          </tr>
         ))}
       </tbody>
     </table>
   )}
 </section>
+
+<style>
+  .marking-table caption {
+    caption-side: top;
+    text-align: start;
+    color: var(--at-text-secondary);
+    font-size: var(--at-font-size-sm);
+    padding-block-end: var(--at-spacing-sm);
+  }
+
+  /* Let the meter column take the room; the names size to their content. */
+  .marking-table td {
+    width: 60%;
+  }
+
+  .marking-criterion {
+    font-weight: normal;
+  }
+
+  .marking-weight {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--at-spacing-sm);
+  }
+
+  /* A meter, not a bar chart: the track is the whole mark, a lighter step of
+     the same ramp, so each criterion reads against the limit it's a share of. */
+  .marking-meter {
+    block-size: 10px;
+    border-radius: 4px;
+    background: light-dark(
+      oklch(from var(--at-primary) 93% 0.03 h),
+      oklch(from var(--at-primary) 27% 0.022 h)
+    );
+  }
+
+  .marking-fill {
+    block-size: 100%;
+    inline-size: calc(var(--share) * 1%);
+    border-radius: 4px;
+    background: light-dark(
+      oklch(from var(--at-primary) 58% 0.102 h),
+      oklch(from var(--at-primary) 70% 0.1075 h)
+    );
+  }
+
+  .marking-value {
+    font-variant-numeric: tabular-nums;
+    font-size: var(--at-font-size-sm);
+    color: var(--at-text-secondary);
+  }
+
+  @media (max-width: 30rem) {
+    .marking-table td {
+      width: auto;
+    }
+  }
+</style>
