@@ -26,6 +26,23 @@ black bars removed, structurally the same move as everything else in
 weeks 2 through 10, just with higher stakes for who gets to decide what
 counts as background.
 
+## Example
+
+Rhetoric has its own name for the move and it is week 2's word:
+apophasis, or paralipsis --- asserting something by announcing that you
+will not mention it. "I won't bring up my opponent's finances" brings up
+the opponent's finances, in a sentence whose surface content is a
+refusal to do so.
+
+What it costs the speaker is deniability that only holds while nobody
+looks, since the figure is ancient, named, and obvious once you know to
+watch for it. What it buys is that the claim arrives without being
+owned: unstated, therefore unevidenced, therefore unanswerable in the
+terms it was raised in. Note what has changed since week 3. The
+technique is identical to Ma Yuan's --- leave it unresolved and let the
+audience fill it --- and here it is working against the audience rather
+than for them.
+
 ## Outline
 
 - redaction as the literal case: the omission you can see the shape of
