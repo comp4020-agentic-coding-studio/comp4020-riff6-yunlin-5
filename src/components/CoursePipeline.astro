@@ -1,0 +1,172 @@
+---
+import { getPublishedCollection } from "astro-course-university/content";
+import { withBase } from "astro-theme-university/url";
+import { ordinalStep } from "../lib/ramp";
+import { sessionLabels } from "../site-config";
+
+// The week and the semester run the same three moves at different scales:
+// notice a cut, make one, defend it. Drawing them on one spine is the
+// point of the diagram --- the three assessments aren't a separate track
+// bolted to the teaching, they are the weekly loop stretched over twelve
+// weeks. Stage colour comes from the shared ordinal ramp in the same order
+// the assessments page uses, so a stage and its assessment stay the same
+// colour on both pages.
+
+const stages = [
+  {
+    verb: "Notice",
+    week: "The lecture puts one discipline's omission on the table and asks what it was doing.",
+    scale: "Weeks 1–5",
+  },
+  {
+    verb: "Make",
+    week: "The studio asks for the same cut in your own medium, small enough to finish.",
+    scale: "Weeks 6–10",
+  },
+  {
+    verb: "Defend",
+    week: `The ${sessionLabels.singular.toLowerCase()} argues about whether the cut earned its keep.`,
+    scale: "Weeks 11–12",
+  },
+];
+
+const assessments = await getPublishedCollection("assessments");
+const ordered = [...assessments].sort((a, b) => a.data.due.getTime() - b.data.due.getTime());
+
+const steps = stages.map((stage, index) => ({
+  ...stage,
+  mark: ordinalStep(index, stages.length),
+  assessment: ordered[index]
+    ? {
+        title: ordered[index].data.title,
+        href: withBase(`/assessments/${ordered[index].id}/`),
+      }
+    : undefined,
+}));
+---
+
+<figure class="pipeline">
+  <ol class="pipeline-stages">
+    {
+      steps.map((step, index) => (
+        <li class="pipeline-stage" style={`--mark: ${step.mark}`}>
+          <p class="pipeline-verb">
+            <span class="pipeline-index" aria-hidden="true">{index + 1}</span>
+            {step.verb}
+          </p>
+          <p class="pipeline-week">{step.week}</p>
+          {step.assessment && (
+            <p class="pipeline-assessment">
+              <span class="pipeline-scale">{step.scale}</span>
+              <a href={step.assessment.href}>{step.assessment.title}</a>
+            </p>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+
+  <figcaption>
+    Read across: that is one week. Read the bottom row on its own and it is
+    the whole semester &mdash; the three assessments are the same three moves
+    stretched over twelve weeks, which is why the last one asks you to defend
+    a cut rather than make a new one.
+  </figcaption>
+</figure>
+
+<style>
+  .pipeline {
+    margin: 0 0 var(--at-spacing-xl);
+  }
+
+  .pipeline-stages {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--at-spacing-lg);
+  }
+
+  .pipeline-stage {
+    display: grid;
+    /* Rows are fixed so the three assessments line up across the columns
+       however long the week's sentence runs. */
+    grid-template-rows: auto 1fr auto;
+    gap: var(--at-spacing-sm);
+    padding-block-start: var(--at-spacing-sm);
+    /* The stage's colour arrives as a rule above it rather than a filled
+       box --- a tinted block behind body text would have to fight the text
+       for contrast, and lose. */
+    border-block-start: 3px solid var(--mark);
+    position: relative;
+  }
+
+  /* The one mark that makes this a pipeline rather than three columns, so
+     it has to survive being small: an arrow in the gutter, on the verb's
+     own line, where the eye already is. */
+  .pipeline-stage + .pipeline-stage::before {
+    content: "\2192";
+    position: absolute;
+    inset-block-start: var(--at-spacing-sm);
+    inset-inline-start: calc(var(--at-spacing-lg) * -1);
+    inline-size: var(--at-spacing-lg);
+    text-align: center;
+    color: var(--at-text-muted);
+    line-height: 1.6;
+  }
+
+  .pipeline-verb {
+    margin: 0;
+    font-weight: 600;
+    color: var(--at-heading);
+    display: flex;
+    align-items: baseline;
+    gap: var(--at-spacing-xs);
+  }
+
+  .pipeline-index {
+    font-variant-numeric: tabular-nums;
+    font-size: var(--at-font-size-xs);
+    color: var(--at-text-muted);
+  }
+
+  .pipeline-week,
+  .pipeline-assessment {
+    margin: 0;
+    font-size: var(--at-font-size-sm);
+  }
+
+  .pipeline-assessment {
+    display: grid;
+    gap: 0.15rem;
+    padding-block-start: var(--at-spacing-sm);
+    border-block-start: 1px solid var(--at-divider);
+  }
+
+  .pipeline-scale {
+    font-size: var(--at-font-size-xs);
+    color: var(--at-text-muted);
+  }
+
+  .pipeline figcaption {
+    margin-block-start: var(--at-spacing-md);
+    font-size: var(--at-font-size-sm);
+    color: var(--at-text-secondary);
+  }
+
+  @media (max-width: 44rem) {
+    .pipeline-stages {
+      grid-template-columns: 1fr;
+    }
+
+    .pipeline-stage {
+      grid-template-rows: none;
+    }
+
+    /* Stacked, the connector would point sideways into nothing. */
+    .pipeline-stage + .pipeline-stage::before {
+      content: none;
+    }
+  }
+</style>
