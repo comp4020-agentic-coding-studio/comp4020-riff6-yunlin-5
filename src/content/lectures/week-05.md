@@ -30,6 +30,23 @@ Your first assessment, the Commonplace Book, is due at the end of this
 week: it asks you to have already been collecting cuts like these before
 you were told to look for them.
 
+## Example
+
+"Hills Like White Elephants" (1927) never uses the word the whole story
+is about. A couple wait for a train in the Ebro valley and discuss an
+operation that is never named, in dialogue that is almost entirely
+evasion, and Hemingway supplies no interiority at all --- no access to
+what either of them actually wants.
+
+The cost is not hypothetical: readers finish the story without knowing
+what was being discussed, and it has been taught for a century partly
+because it needs teaching. What the omission buys is that the evasion
+isn't described but performed. The reader is put in the couple's own
+position, circling a subject neither will say, and a version that named
+it would have been reduced to describing an avoidance instead of
+enacting one. This is the iceberg theory's best case, which is why it is
+the one to argue against.
+
 ## Outline
 
 - the iceberg theory, in Hemingway's own words and against his own drafts
