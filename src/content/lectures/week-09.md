@@ -28,6 +28,24 @@ it as the semester's harshest test of the course's own thesis: sometimes
 what's missing isn't a considered cut at all, just an absence with a
 cost nobody's paying attention to.
 
+## Example
+
+Roche's oseltamivir --- Tamiflu --- is the most expensive omission in
+the course. Governments stockpiled the drug on the published evidence;
+the Cochrane reviewers who went looking for the rest of it found that a
+large share of the trials had never been fully reported, and spent years
+trying to obtain the clinical study reports before they could say what
+the drug did.
+
+The cost here is unusually easy to price, because the stockpiles came
+with invoices. What the omission bought is worth naming too, because it
+wasn't nothing: an incomplete record made the case look cleaner than it
+was, to the benefit of the party holding the missing part. That is the
+file-drawer incentive in its plainest form, and this is the week's real
+point --- the cut was deliberate, it bought something for somebody, and
+it was still indefensible. "It left something out" has never been the
+whole test.
+
 ## Outline
 
 - the file-drawer problem and why it's worse than it sounds
