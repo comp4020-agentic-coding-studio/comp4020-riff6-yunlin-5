@@ -25,6 +25,22 @@ falls. "I ran out of ideas" is a different answer from "the rest is where
 the audience is meant to notice what they just heard," and only one of
 those is a cut that earned its keep.
 
+## Example
+
+Stop-time is the band agreeing to stop. The rhythm section punches a
+chord on the first beat of each bar and leaves the rest of it empty, and
+the soloist plays into the hole. Louis Armstrong's stop-time chorus on
+"Potato Head Blues" (Hot Seven, 1927) is the case everyone cites, and
+what makes it work is the accompaniment not playing.
+
+What it costs is the groove --- the continuous swing a listener has been
+leaning on disappears exactly when the solo gets interesting, and a
+weaker player is left with nothing to hide behind. That exposure is also
+what it buys. Every phrase is heard against silence instead of against a
+band, so the shape of the line, and the length of the gaps Armstrong
+leaves between phrases, becomes the only thing in the room. The rests
+are load-bearing in a way they cannot be when the band plays through.
+
 ## Outline
 
 - the rest as notated content, not an absence of it
