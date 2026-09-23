@@ -27,6 +27,23 @@ against harder cases than Taleb's --- a religious tradition that built an
 entire vocabulary out of negation, centuries before anyone needed the word
 for a diet.
 
+## Example
+
+Michelangelo's four unfinished *Prigioni*, now in the Accademia in
+Florence, are the plainest picture of the method because they stopped
+halfway. A shoulder is polished to a finish; a leg is still inside the
+block; tool marks run straight across the join between them. Carving is
+subtractive in the strict sense --- the figure is whatever remains ---
+and these show the remainder mid-argument.
+
+What that costs is that marble doesn't go back on. Every removal is
+final, a misjudgement can't be repaired but only worked around by
+removing more, and the sculptor is committed from the first blow. What
+it buys is a decision that stays legible: you can still read, in the
+tool marks, exactly where Michelangelo thought the figure ended and the
+block began. Modelling in clay --- additive, endlessly revisable ---
+keeps no such record of what it nearly did instead.
+
 ## Outline
 
 - what "via negativa" meant before it meant a diet book
