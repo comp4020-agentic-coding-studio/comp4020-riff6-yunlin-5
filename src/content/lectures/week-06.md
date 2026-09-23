@@ -25,6 +25,23 @@ in the whole semester that a cut can generate meaning neither shot had
 alone, which is a stronger claim than anything painting or theology has
 offered so far.
 
+## Example
+
+David Lean's match cut in *Lawrence of Arabia* (1962): Lawrence blows
+out a match, and the film cuts to the sun coming up over the desert.
+Between those two frames the film removes the entire journey --- the
+decision, the preparation, the passage to Arabia.
+
+The cut is invisible in this week's sense. Nobody watching experiences a
+gap, because the two shapes rhyme and the flame's extinction hands off
+to the sun's arrival. What it costs is everything an audience might
+reasonably want about how Lawrence got there, and a more dutiful film
+would have supplied every bit of it. What it buys is the association the
+removal creates: a match and a sunrise read as one gesture at two
+scales, which is a claim about the man that no scene of packing could
+have made. The cut is doing the characterisation the deleted scenes
+would have done worse.
+
 ## Outline
 
 - continuity editing as a century-long project of hiding its own cuts
