@@ -2,6 +2,7 @@
 import { getPublishedCollection } from "astro-course-university/content";
 import { withBase } from "astro-theme-university/url";
 import { formatCourseDate } from "../lib/dates";
+import { ordinalStep } from "../lib/ramp";
 
 // Two figures the three cards below can't draw: how the hundred marks divide,
 // and how much of the semester each assessment is actually running for. Both
@@ -9,18 +10,6 @@ import { formatCourseDate } from "../lib/dates";
 // ordinal ramp carries identity across both --- the colour is the order, not
 // the size. (A ramp keyed to weight would double-encode what the bar length
 // already says; see the ordering below, which is by date.)
-
-const ordinalStep = (index: number, total: number) => {
-  const t = total > 1 ? index / (total - 1) : 0;
-  const mix = (from: number, to: number) => from + (to - from) * t;
-  // Endpoints validated as an ordinal ramp against both theme surfaces:
-  // one hue (the brand gold), monotone lightness, adjacent dL >= 0.06, and
-  // the step nearest each surface still clears it. Derived from --at-primary
-  // via relative colour so the house palette stays the only palette.
-  const light = `oklch(from var(--at-primary) ${(mix(0.72, 0.44) * 100).toFixed(1)}% ${mix(0.112, 0.092).toFixed(3)} h)`;
-  const dark = `oklch(from var(--at-primary) ${(mix(0.55, 0.85) * 100).toFixed(1)}% ${mix(0.115, 0.1).toFixed(3)} h)`;
-  return `light-dark(${light}, ${dark})`;
-};
 
 const [assessments, lectures] = await Promise.all([
   getPublishedCollection("assessments"),
