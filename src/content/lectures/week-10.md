@@ -25,6 +25,23 @@ standard for which cut was the right one, argued about, sometimes
 overturned, and taken completely seriously by people who'd never call it
 taste.
 
+## Example
+
+The standard proof that the square root of two is irrational says
+nothing whatever about what that number is. Assume it equals p/q in
+lowest terms; square both sides, rearrange, and p and q both turn out to
+be even --- contradicting "lowest terms." The assumption dies and the
+theorem stands.
+
+What that costs is any positive account of the object. At the end you
+know √2 is not the ratio of two integers, and you have learned nothing
+about its expansion, its continued fraction, or how to compute it to
+three places. What it buys is certainty across an infinite class of
+candidates without testing one of them: every fraction anyone could ever
+propose has been ruled out, in four lines. The proof is apophatic in
+week 2's exact sense --- it reaches its result by refusing descriptions
+--- and it is the most secure claim anywhere in this course.
+
 ## Outline
 
 - reductio ad absurdum: proving by elimination rather than construction
