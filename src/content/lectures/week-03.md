@@ -26,6 +26,22 @@ refusal is more accurate, not just more modest. The lecture asks whether
 that's the same claim twice or two different claims that happen to look
 alike.
 
+## Example
+
+Ma Yuan, working in the Southern Song academy two centuries before Ni
+Zan, was nicknamed "One-corner Ma" for compositions that pushed
+everything --- a pine, a fisherman, a sliver of bank --- into a single
+corner and left the rest of the silk untouched.
+
+The remainder isn't unfinished and it isn't sky. It reads as mist, water
+and distance at once, and it reads as all three only because Ma Yuan
+never resolved which it was. What that costs him is specificity: he
+gives up the ability to say what is out there, and a viewer who wants a
+located landscape doesn't get one. What it buys is a depth no rendered
+background could hold, because any brushstroke fine enough to describe
+the distance would have had to choose one of the three and lose the
+other two.
+
 ## Outline
 
 - liubai and the compositional load an empty ground carries
