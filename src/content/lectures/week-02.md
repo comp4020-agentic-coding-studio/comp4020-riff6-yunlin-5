@@ -24,6 +24,23 @@ vocabulary the rest of the semester borrows. "Apophatic" (saying by
 unsaying) versus "cataphatic" (saying by saying) is the pair every later
 week's discipline turns out to have its own local version of.
 
+## Example
+
+The Brihadaranyaka Upanishad reaches the same grammar with no contact
+with Pseudo-Dionysius at all: *neti neti*, "not this, not this." Asked
+what the self ultimately is, the text answers only by withdrawing each
+candidate description as fast as it is offered, and never substitutes a
+better one.
+
+That two traditions separated by geography and the better part of a
+millennium land on an identical move is the strongest evidence this week
+has that apophasis isn't the stylistic tic of one theology. What it
+costs is anything teachable: there is no positive statement to hand a
+student, only a discipline of refusal that has to be practised to be
+transmitted. What it buys is that no formulation can harden into the
+thing it was pointing at --- which is the specific failure both
+traditions were most afraid of.
+
 ## Outline
 
 - three apophatic theologians, three different reasons for the same move
